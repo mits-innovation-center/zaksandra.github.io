@@ -1,115 +1,75 @@
-// query our HTML elements using their ids / class names
-const endInningButton = document.querySelector("#end-inning");
-const awayScoreButton = document.querySelector("#away-score");
-const homeScoreButton = document.querySelector("#home-score");
-
-// Create an object to hold the state of our game
-const state = {
-  inning: 0,
-  totalInnings: 3,
-  teams: {
-    home: {
-      name: "Chicago Cubs",
-      innings: [0],
-      total: 0
-    },
-    away: {
-      name: "Pittsburgh Pirates",
-      innings: [0],
-      total: 0
-    }
-  }
-};
-
-// Create an object to store different element queries
-const elements = {
-  teams: {
-    home: {
-      name: document.querySelector(".home .name"),
-      innings: document.querySelectorAll(".home .inning"),
-      total: document.querySelector(".home .total")
-    },
-    away: {
-      name: document.querySelector(".away .name"),
-      innings: document.querySelectorAll(".away .inning"),
-      total: document.querySelector(".away .total")
-    }
-  }
-};
-
-// Set team names on load
-elements.teams.home.name.textContent = state.teams.home.name;
-elements.teams.away.name.textContent = state.teams.away.name;
-
-// Create a function to run when a team scores
-function handleScore(teamName) {
-  const { inning, teams } = state;
-  const team = teams[teamName];
-
-  // update state
-  team.innings[inning]++;
-  team.total++;
-
-  // update elements
-  const teamElements = elements.teams[teamName];
-
-  const inningElement = teamElements.innings[inning];
-  inningElement.textContent = team.innings[inning];
-
-  const totalElement = teamElements.total;
-  totalElement.textContent = team.total;
+ 2.34 KB
+  
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Scorecard</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+<style>
+.center {
+  margin: auto;
+  width: 75%;
+  border: 3px solid black;
+  padding: 10px;
 }
+</style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html"></a>
+        </div>
+      </div>
+    </nav>
 
-// Create a function to run when we finish an inning
-function handleEndOfInning() {
-  if (state.inning > state.totalInnings - 1) {
-    return;
-  } else if (state.inning === state.totalInnings - 1) {
-    endInningButton.disabled = true;
-    awayScoreButton.disabled = true;
-    homeScoreButton.disabled = true;
-  }
+    <div class="container ">
+    	<div class="jumbotron bg-dark">
+	    	<h1 class="text-center ">Scoreboard</h1>
+	    	
+	    </div>
+    </div>
 
-  const { teams, inning, totalInnings } = state;
+<div class="center">
+<label><b> Eren 90 points </b></label>
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<br>
+<label><b> Gabriel 70 points</b> </label>
+<div class="progress">
+  <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<br>
+<label><b> Gabi 90 points</b> </label>
+<div class="progress">
+  <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width: 90%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<br>
+<label> <b>Edwin 99 points</b> </label>
+<span class="badge bg-primary">1 st</span>
+<div class="progress">
+  <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width: 99%;" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<br>
+<label><b> Jen 75 points</b> </label>
+<div class="progress">
+  <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<br>
+    <div class="container">
+      <div id="movies" class="row"></div>
+    </div>
+<br>
+</div>
 
-  // update the HTML elements for both teams
-  for (let teamName of ["home", "away"]) {
-    const team = teams[teamName];
-
-    // update state
-    team.innings.push(0);
-
-    // update elements
-    const teamElements = elements.teams[teamName];
-
-    // update the current (stale) inning element
-    const currentInning = teamElements.innings[inning];
-    currentInning.classList.toggle("current-inning");
-
-    if (!team.innings[inning]) {
-      currentInning.textContent = "0";
-    }
-
-    // If we're out of innings, stop here
-    if (inning >= totalInnings - 1) {
-      continue;
-    } else {
-      // Update the new inning element
-      const nextInning = teamElements.innings[state.inning + 1];
-      nextInning.classList.toggle("current-inning");
-    }
-  }
-  // Increment the inning
-  state.inning++;
-}
-
-// connect our functions to our HTML button elements
-endInningButton.onclick = handleEndOfInning;
-
-awayScoreButton.onclick = function() {
-  handleScore("away");
-};
-homeScoreButton.onclick = function() {
-  handleScore("home");
-};
-
+    <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="Js/main.js"></script>
+  </body>
+</html>
